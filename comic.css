@@ -1,0 +1,1308 @@
+/* XKCD-style Comic CSS */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+}
+
+body {
+    font-family: 'Patrick Hand', cursive;
+    background: #fff;
+    color: #000;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+/* Slide numbers */
+.slide-number {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+    color: #999;
+}
+
+/* Each screen is a full-page comic panel */
+.screen {
+    min-height: 100vh;
+    width: 100%;
+    background: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px 220px;
+    scroll-snap-align: start;
+    border-bottom: 3px solid #000;
+}
+
+.screen:last-child {
+    border-bottom: none;
+}
+
+/* Speech bubbles */
+.speech-bubble {
+    position: relative;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 20px;
+    padding: 20px 28px;
+    max-width: 450px;
+    font-size: 1.4rem;
+    margin: 15px 20px;
+    box-shadow: 4px 4px 0 #000;
+}
+
+.speech-bubble p {
+    margin: 0;
+}
+
+.speech-bubble strong {
+    font-weight: 700;
+}
+
+/* Speech bubble tails */
+.speech-bubble.left::after {
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    left: 40px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #000;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.speech-bubble.left::before {
+    content: '';
+    position: absolute;
+    bottom: -19px;
+    left: 43px;
+    width: 0;
+    height: 0;
+    border: 16px solid transparent;
+    border-top-color: #fff;
+    border-bottom: 0;
+    border-left: 0;
+    z-index: 1;
+}
+
+.speech-bubble.right::after {
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    right: 40px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #000;
+    border-bottom: 0;
+    border-right: 0;
+}
+
+.speech-bubble.right::before {
+    content: '';
+    position: absolute;
+    bottom: -19px;
+    right: 43px;
+    width: 0;
+    height: 0;
+    border: 16px solid transparent;
+    border-top-color: #fff;
+    border-bottom: 0;
+    border-right: 0;
+    z-index: 1;
+}
+
+/* Position bubbles */
+.speech-bubble.left {
+    align-self: flex-start;
+    margin-left: 80px;
+}
+
+.speech-bubble.right {
+    align-self: flex-end;
+    margin-right: 80px;
+}
+
+/* Grey highlight for the riddle */
+.grey-highlight {
+    background: #888;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Figures container */
+.figures {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 60px;
+    pointer-events: none;
+}
+
+
+.figures-thinking {
+    position: relative;
+    bottom: auto;
+    margin-top: 60px;
+    padding: 0 80px;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* Individual figure */
+.figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.figure .label {
+    font-size: 1rem;
+    color: #666;
+    font-family: 'Patrick Hand', cursive;
+}
+
+/* Bigger stick figures */
+.stick-figure {
+    width: 130px;
+    height: 200px;
+}
+
+
+/* Thought bubbles - above character */
+.thought-bubble {
+    position: relative;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 15px 20px;
+    max-width: 220px;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Thought bubble circles going DOWN towards head */
+.thought-bubble.thought-above::after {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+}
+
+.thought-bubble.thought-above::before {
+    content: '';
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 50%;
+}
+
+.figure.with-thought {
+    flex-direction: column;
+}
+
+/* Scroll hint */
+.scroll-hint {
+    position: absolute;
+    bottom: 240px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #888;
+    font-size: 0.9rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* Comic title */
+.comic-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Othello explanation */
+.othello-explanation {
+    margin-bottom: 20px;
+}
+
+.rules-box {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 20px 30px;
+    max-width: 500px;
+    box-shadow: 4px 4px 0 #000;
+}
+
+.rules-box h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.rules-box ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.rules-box li {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.rules-box li::before {
+    content: '\2192';
+    position: absolute;
+    left: 0;
+}
+
+.highlight-legal {
+    background: var(--legal-move, rgba(120, 90, 140, 0.4));
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Othello board - uses CSS variables from comic-colors.js */
+.othello-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.comic-othello-board {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 2px;
+    background: var(--board-border, #8b7355);
+    padding: 8px;
+    border: 4px solid #000;
+    border-radius: 8px;
+    box-shadow: 6px 6px 0 #000;
+}
+
+.comic-cell {
+    width: 50px;
+    height: 50px;
+    background: var(--cell-bg, #d4c4a8);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s;
+}
+
+.comic-cell:hover {
+    background: var(--cell-hover, #c9b896);
+}
+
+.comic-cell.legal-move {
+    background: var(--legal-move, rgba(120, 90, 140, 0.35));
+}
+
+.comic-cell.legal-move:hover {
+    background: var(--legal-move-hover, rgba(120, 90, 140, 0.5));
+}
+
+/* NTP classification highlighting - border mode (default) */
+.comic-cell.ntp-useful::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 3px solid var(--ntp-useful, #22c55e);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.comic-cell.ntp-useless::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border: 3px solid var(--ntp-useless, #888);
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* NTP classification highlighting - full background mode */
+.highlight-full .comic-cell.ntp-useful::after {
+    display: none;
+}
+
+.highlight-full .comic-cell.ntp-useless::after {
+    display: none;
+}
+
+.highlight-full .comic-cell.ntp-useful {
+    background: var(--ntp-useful, #22c55e);
+}
+
+.highlight-full .comic-cell.ntp-useful:hover {
+    background: var(--ntp-useful, #22c55e);
+    filter: brightness(1.1);
+}
+
+.highlight-full .comic-cell.ntp-useless {
+    background: var(--ntp-useless, #888);
+}
+
+.highlight-full .comic-cell.ntp-useless:hover {
+    background: var(--ntp-useless, #888);
+    filter: brightness(1.1);
+}
+
+.comic-piece {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.comic-piece.black {
+    background: radial-gradient(circle at 30% 30%, var(--black-piece-light, #444), var(--black-piece-dark, #111));
+}
+
+.comic-piece.white {
+    background: radial-gradient(circle at 30% 30%, var(--white-piece-light, #fff), var(--white-piece-dark, #ddd));
+    border: 1px solid var(--white-piece-border, #999);
+}
+
+/* Game controls */
+.game-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.comic-btn {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+    padding: 10px 24px;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+    transition: all 0.1s;
+}
+
+.comic-btn:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 #000;
+}
+
+.comic-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+.turn-display {
+    font-size: 1.2rem;
+}
+
+#comic-current-player,
+#riddle-current-player {
+    font-weight: bold;
+}
+
+/* Legend */
+.legend-inline {
+    display: flex;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #000;
+}
+
+.legend-color.green {
+    background: var(--ntp-useful, #22c55e);
+}
+
+.legend-color.grey {
+    background: var(--ntp-useless, #888);
+}
+
+/* Big text for finale */
+.big-text {
+    text-align: center;
+    max-width: 700px;
+    margin-bottom: 40px;
+}
+
+.big-text p {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2rem;
+    line-height: 1.4;
+}
+
+.big-text strong {
+    background: linear-gradient(180deg, transparent 20%, rgba(255,200,0,0.4) 20%);
+}
+
+/* Screen with Othello has different padding */
+.screen-othello {
+    padding-top: 40px;
+    padding-bottom: 180px;
+}
+
+/* Speech bubble positioned to the side of the board */
+.board-side-bubble {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+}
+
+/* Speech bubble above figure */
+.figure.with-speech {
+    flex-direction: column;
+}
+
+.figure.with-speech .speech-bubble.figure-bubble {
+    margin: 0 0 10px 0;
+    max-width: 200px;
+    font-size: 1.1rem;
+    padding: 12px 16px;
+}
+
+/* Screen 5 answer - compact layout */
+#screen-5 {
+    padding-top: 20px;
+    padding-bottom: 160px;
+}
+
+#screen-5 .speech-bubble {
+    margin: 5px 20px;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+}
+
+#screen-5 .othello-game-container {
+    margin-top: 10px;
+}
+
+.screen-finale {
+    padding-bottom: 80px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .screen {
+        padding: 40px 20px 200px;
+    }
+
+    .speech-bubble {
+        max-width: 320px;
+        font-size: 1.2rem;
+        padding: 15px 20px;
+    }
+
+    .speech-bubble.left {
+        margin-left: 20px;
+    }
+
+    .speech-bubble.right {
+        margin-right: 20px;
+    }
+
+    .figures {
+        padding: 0 30px;
+    }
+
+    .stick-figure {
+        width: 110px;
+        height: 170px;
+    }
+
+
+    .comic-cell {
+        width: 40px;
+        height: 40px;
+    }
+
+    .comic-piece {
+        width: 32px;
+        height: 32px;
+    }
+
+    .comic-title {
+        font-size: 1.8rem;
+    }
+
+    .big-text p {
+        font-size: 1.5rem;
+    }
+
+    .thought-bubble {
+        max-width: 180px;
+        font-size: 1rem;
+        padding: 12px 15px;
+    }
+
+    .figures-thinking {
+        padding: 0 30px;
+        max-width: 600px;
+    }
+
+    .slide-number {
+        font-size: 1rem;
+        top: 15px;
+        left: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .comic-cell {
+        width: 35px;
+        height: 35px;
+    }
+
+    .comic-piece {
+        width: 28px;
+        height: 28px;
+    }
+
+    .rules-box {
+        padding: 15px 20px;
+    }
+
+    .rules-box li {
+        font-size: 1rem;
+    }
+
+    .stick-figure {
+        width: 90px;
+        height: 140px;
+    }
+
+    .figures-thinking {
+        padding: 0 15px;
+        max-width: 100%;
+    }
+}
+
+/* ========================================
+   Screen 7: Gradient Flow Visualization
+   ======================================== */
+
+.screen-explainer {
+    padding: 40px 20px 60px;
+    background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%);
+}
+
+.section-subtitle {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.35rem;
+    color: #444;
+    text-align: center;
+    margin-bottom: 12px;
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+.section-subtitle:first-of-type {
+    font-size: 1.6rem;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.inline-turquoise-rect {
+    display: inline-block;
+    width: 28px;
+    height: 14px;
+    background: #56e9fc;
+    border: 2px solid #1071e5;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+.gradient-viz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    max-width: 95vw;
+    margin: 0 auto;
+}
+
+/* Checkbox controls */
+.gradient-controls {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: #fff;
+    padding: 15px 30px;
+    border: 3px solid #000;
+    border-radius: 12px;
+    box-shadow: 4px 4px 0 #000;
+}
+
+.gradient-controls h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.2rem;
+    margin-right: 10px;
+}
+
+.gradient-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    user-select: none;
+}
+
+.gradient-checkbox input {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #000;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+}
+
+.checkbox-custom.direct {
+    background: #008a0e;
+}
+
+.checkbox-custom.precached {
+    background: #1071e5;
+}
+
+.checkbox-custom.shared {
+    background: #d27926;
+}
+
+.gradient-checkbox input:not(:checked) + .checkbox-custom {
+    background: #fff;
+}
+
+.gradient-checkbox input:checked + .checkbox-custom::after {
+    content: '\2713';
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+}
+
+.gradient-checkbox input:not(:checked) + .checkbox-custom::after {
+    content: '';
+}
+
+.checkbox-label {
+    font-family: 'Patrick Hand', cursive;
+}
+
+/* SVG visualization */
+.gradient-viz-wrapper {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 6px 6px 0 #000;
+    overflow: hidden;
+    width: 65%;
+    max-width: 800px;
+}
+
+.gradient-flow-svg {
+    width: 100%;
+    height: auto;
+}
+
+.layer-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 18px;
+    font-style: italic;
+    fill: #666;
+}
+
+.position-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 18px;
+    font-style: italic;
+    fill: #666;
+    text-anchor: middle;
+}
+
+.layer-line {
+    stroke: #56e9fc;
+    stroke-width: 2;
+    stroke-linecap: round;
+    fill: none;
+}
+
+/* Token boxes */
+.token-box {
+    fill: #f2f3f5;
+    stroke: #6f7681;
+    stroke-width: 2;
+}
+
+.token-text {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 28px;
+    text-anchor: middle;
+    fill: #333;
+}
+
+/* Hidden state boxes */
+.state-box {
+    fill: #f2f3f5;
+    fill-opacity: 0.54;
+    stroke: #979ea8;
+    stroke-width: 2;
+}
+
+/* Gradient paths */
+.gradient-path {
+    transition: opacity 0.3s ease;
+}
+
+.gradient-path.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Direct path (green) - exact paper color #008a0e */
+.direct-line {
+    stroke: #008a0e;
+    stroke-width: 6;
+    fill: none;
+}
+
+.direct-arrow {
+    stroke: #008a0e;
+    stroke-width: 6;
+    fill: #008a0e;
+}
+
+/* Pre-cached path (blue) - exact paper color #1071e5 */
+.precached-line {
+    stroke: #1071e5;
+    stroke-width: 6;
+    fill: none;
+}
+
+.precached-line-vert {
+    stroke: #008a0e;
+    stroke-width: 6;
+    fill: none;
+}
+
+.precached-arrow {
+    stroke: #1071e5;
+    stroke-width: 6;
+    fill: #1071e5;
+}
+
+.precache-highlight {
+    fill: #56e9fc;
+    stroke: #1071e5;
+    stroke-width: 2;
+}
+
+/* Shared path (orange) - exact paper color #d27926 with 0.3 opacity */
+.shared-line {
+    stroke: #d27926;
+    stroke-opacity: 0.3;
+    stroke-width: 5;
+    fill: none;
+}
+
+.shared-line-half {
+    stroke: #d27926;
+    stroke-opacity: 0.5;
+    stroke-width: 5;
+    fill: none;
+}
+
+.shared-arrow {
+    stroke: #d27926;
+    stroke-opacity: 0.3;
+    stroke-width: 5;
+    fill: #d27926;
+    fill-opacity: 0.3;
+}
+
+.shared-arrow-half {
+    stroke: #d27926;
+    stroke-opacity: 0.5;
+    stroke-width: 5;
+    fill: #d27926;
+    fill-opacity: 0.5;
+}
+
+/* Explanations */
+.gradient-explanations {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+}
+
+.explanation-box {
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 15px 20px;
+    max-width: 280px;
+    box-shadow: 3px 3px 0 #000;
+    transition: all 0.3s ease;
+}
+
+.explanation-box.hidden {
+    opacity: 0.3;
+    transform: scale(0.95);
+}
+
+.explanation-box h4 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.explanation-box h4::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+.direct-explain h4::before {
+    background: #008a0e;
+}
+
+.precached-explain h4::before {
+    background: #1071e5;
+}
+
+.shared-explain h4::before {
+    background: #d27926;
+}
+
+.explanation-box p {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #444;
+}
+
+.explanation-box p strong {
+    color: #000;
+}
+
+/* Responsive for gradient viz */
+@media (max-width: 768px) {
+    .gradient-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .gradient-controls h3 {
+        width: 100%;
+        text-align: center;
+        margin-right: 0;
+    }
+
+    .gradient-explanations {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .explanation-box {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .gradient-viz-wrapper {
+        padding: 10px;
+    }
+
+    .checkbox-label {
+        font-size: 0.95rem;
+    }
+
+    .checkbox-custom {
+        width: 20px;
+        height: 20px;
+    }
+
+    .section-subtitle {
+        font-size: 1.15rem;
+    }
+
+    .section-subtitle:first-of-type {
+        font-size: 1.3rem;
+    }
+}
+
+/* ========================================
+   Screen 8: Barplot Visualization
+   ======================================== */
+
+.barplot-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 6px 6px 0 #000;
+    max-width: 550px;
+}
+
+.gradient-barplot {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.gradient-barplot .axis-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 14px;
+    fill: #666;
+}
+
+.gradient-barplot .tick-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 12px;
+    fill: #666;
+}
+
+.gradient-barplot .group-label {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 16px;
+    fill: #333;
+}
+
+.gradient-barplot .legend-text {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 12px;
+    fill: #555;
+}
+
+.gradient-barplot .bar-value {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 11px;
+    fill: #333;
+    font-weight: bold;
+}
+
+.barplot-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.barplot-note {
+    position: absolute;
+    right: calc(30% - 340px);
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.note-text {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.95rem;
+    color: #666;
+    font-style: italic;
+    max-width: 140px;
+    text-align: right;
+    line-height: 1.3;
+}
+
+@media (max-width: 800px) {
+    .barplot-note {
+        display: none;
+    }
+}
+
+.insight-box {
+    margin: 25px auto 0;
+    background: #fff;
+    padding: 20px 30px;
+    border: 3px solid #000;
+    border-radius: 10px;
+    max-width: 700px;
+    text-align: center;
+    box-shadow: 4px 4px 0 #000;
+}
+
+.insight-box p {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+}
+
+.insight-box strong {
+    color: #000;
+}
+
+/* ========================================
+   Screen 9: Feature Histogram
+   ======================================== */
+
+.histogram-layout {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 10px auto 0;
+}
+
+.histogram-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 0;
+}
+
+.histogram-wrapper {
+    position: relative;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 20px 25px 15px 15px;
+    box-shadow: 6px 6px 0 #000;
+    width: 100%;
+}
+
+.feature-histogram {
+    width: 100%;
+    height: 340px;
+}
+
+.feature-histogram .bar {
+    transition: opacity 0.15s;
+    cursor: pointer;
+}
+
+.feature-histogram .bar:hover {
+    opacity: 0.8;
+}
+
+.feature-histogram .axis-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 15px;
+    fill: #666;
+}
+
+.feature-histogram .tick-label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 13px;
+    fill: #666;
+}
+
+.histogram-tooltip {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-width: 320px;
+    box-shadow: 4px 4px 0 #000;
+    z-index: 100;
+    pointer-events: none;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.histogram-tooltip .tooltip-header {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 6px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 4px;
+}
+
+.histogram-tooltip .tooltip-feature {
+    margin: 4px 0;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.histogram-tooltip .tooltip-feature .feature-id {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.annotation-box {
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #444;
+    width: 240px;
+    flex-shrink: 0;
+    box-shadow: 3px 3px 0 #000;
+}
+
+.annotation-box .annotation-title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.annotation-right .annotation-title {
+    color: #1071e5;
+}
+
+.annotation-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.annotation-box li {
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+}
+
+.annotation-box li::before {
+    content: '\2022';
+    position: absolute;
+    left: 0;
+}
+
+@media (max-width: 768px) {
+    .histogram-layout {
+        flex-direction: column;
+    }
+
+    .histogram-wrapper {
+        padding: 15px 10px 10px 10px;
+    }
+
+    .feature-histogram {
+        height: 280px;
+    }
+
+    .annotation-box {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   Screen 10: Paper Link
+   ======================================== */
+
+.screen-paper {
+    padding-bottom: 200px;
+}
+
+.qr-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #000;
+    transition: transform 0.2s;
+}
+
+.qr-link:hover {
+    transform: scale(1.05);
+}
+
+.qr-code {
+    width: 200px;
+    height: 200px;
+    border: 4px solid #000;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 #000;
+    background: #fff;
+    padding: 8px;
+}
+
+.qr-caption {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.1rem;
+    color: #666;
+}
