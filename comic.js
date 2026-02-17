@@ -811,3 +811,32 @@ function populateAnnotations(features) {
     rightHTML += '</ul>';
     rightBox.innerHTML = rightHTML;
 }
+
+// Auto-scale screens to fit viewport
+function fitScreensToViewport() {
+    const screens = document.querySelectorAll('.screen');
+    const vh = window.innerHeight;
+    const vw = window.innerWidth;
+
+    screens.forEach(screen => {
+        // Reset zoom to measure natural size
+        screen.style.zoom = '';
+        const scrollH = screen.scrollHeight;
+        const scrollW = screen.scrollWidth;
+
+        // Only scale down if content overflows
+        const scaleH = scrollH > vh ? vh / scrollH : 1;
+        const scaleW = scrollW > vw ? vw / scrollW : 1;
+        const scale = Math.min(scaleH, scaleW);
+
+        if (scale < 1) {
+            screen.style.zoom = scale;
+        }
+    });
+}
+
+window.addEventListener('load', () => {
+    // Small delay to let everything render first
+    setTimeout(fitScreensToViewport, 100);
+});
+window.addEventListener('resize', fitScreensToViewport);
