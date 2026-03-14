@@ -1299,6 +1299,12 @@ body {
     padding-bottom: 200px;
 }
 
+.qr-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
 .qr-link {
     display: flex;
     flex-direction: column;
